@@ -1,25 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sistema de Alertas Ciudadanas</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>🚨 Sistema de Alertas Ciudadanas</h1>
+    <h1>Sistema de Alertas Ciudadanas</h1>
   </header>
 
   <main>
-    <section id="alert-section">
-      <h2>Enviar alerta</h2>
-      <button id="sos-btn">📢 Enviar Alerta SOS</button>
+    <section class="home">
+      <div class="sos-button">SOS</div>
+      <div class="action-buttons">
+        <button class="btn-secondary">📞 Llamar</button>
+        <button class="btn-secondary" id="alerta-btn">✉️ Enviar Alerta</button>
+      </div>
+      <button class="btn-primary">Ver Historial de Reportes</button>
     </section>
 
-    <section id="history-section">
-      <h2>Historial de alertas</h2>
-      <ul id="alert-history"></ul>
+    <section class="formulario" id="form-section">
+      <h2>Registro de Incidencia</h2>
+      <label>Tipo:</label>
+      <select>
+        <option>Delito</option>
+        <option>Accidente</option>
+        <option>Emergencia médica</option>
+      </select>
+
+      <label>Ubicación:</label>
+      <input type="text" placeholder="Jr. General Prado 250" />
+
+      <label>Detalle:</label>
+      <textarea placeholder="Describe lo ocurrido..."></textarea>
+
+      <label>Agregar Archivo:</label>
+      <input type="file" />
+
+      <button class="btn-primary">Enviar Registro</button>
+    </section>
+
+    <section class="historial">
+      <h2>Mi Historial de Incidencias</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Detalle</th>
+            <th>Usuario</th>
+            <th>Lugar</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td><td>Robo</td><td>María Esther</td><td>Jr. Prado 250</td><td>✔️</td>
+          </tr>
+          <tr>
+            <td>2</td><td>Accidente</td><td>María Esther</td><td>Av. Huánuco 345</td><td>👁️</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn-primary">Descargar Reporte Completo</button>
     </section>
   </main>
 

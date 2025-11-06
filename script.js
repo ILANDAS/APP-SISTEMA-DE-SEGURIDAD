@@ -1,12 +1,9 @@
-// Simulación de envío de alertas ciudadanas
-const sosBtn = document.getElementById("sos-btn");
-const alertHistory = document.getElementById("alert-history");
+const sosButton = document.querySelector('.sos-button');
+sosButton.addEventListener('click', () => {
+  alert('🚨 Alerta SOS enviada a las autoridades.');
+});
 
-sosBtn.addEventListener("click", () => {
-  const date = new Date().toLocaleString();
-  const alertItem = document.createElement("li");
-  alertItem.textContent = `🚨 Alerta enviada - ${date}`;
-  alertHistory.prepend(alertItem);
-
-  alert("¡Alerta enviada exitosamente!");
+const alertaBtn = document.getElementById('alerta-btn');
+alertaBtn.addEventListener('click', () => {
+  document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
 });
