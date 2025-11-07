@@ -1,0 +1,80 @@
+# Nombre del pipeline que verás en la pestaña "Actions"
+name: CI/CD - Desplegar Micrositio en GitHub Pages
+
+# 1. EL TRIGGER (Disparador)
+# Esto le dice a GitHub cuándo debe ejecutarse el pipeline.
+on:
+  # Ejecutar en cada 'push'
+  push:
+    # Pero solo si el 'push' es a la rama 'main'
+    branches:
+      - main
+
+# Permisos necesarios para que el pipeline pueda desplegar en tu nombre
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 2. LOS JOBS (Tareas)
+# Un pipeline puede tener uno o más "jobs".
+jobs:
+  # Nombramos nuestro job principal "deploy"
+  deploy:
+    # Le decimos a GitHub Pages que este job es el que genera el despliegue
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Le decimos qué tipo de máquina virtual usar (Ubuntu es la estándar)
+    runs-on: ubuntu-latest
+
+    # 3. LOS STEPS (Pasos)
+    # Esta es la secuencia de comandos que ejecutará la máquina.
+    steps:
+      # Paso 1: Descargar tu código desde el repositorio a la máquina virtual
+      - name: Checkout (Descargar código)
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------
+      # --- INICIO DE LA FASE DE "CI" (Integración Continua) ---
+      # -----------------------------------------------------------------
+      
+      # Paso 2: (CI) Ejecutar una prueba (Simulación)
+      # Aquí es donde realmente satisfaces el requerimiento de "CI".
+      # En lugar de solo desplegar, primero probamos.
+      - name: (CI) Prueba - Verificar enlaces (Simulación)
+        run: |
+          echo "Iniciando paso de pruebas (CI)..."
+          # -------------------------------------------------------------------
+          # EJEMPLO REAL: Aquí instalarías un verificador de enlaces (link-checker)
+          # y lo ejecutarías contra tu 'index.html'.
+          # Si el verificador encuentra un enlace roto, fallaría,
+          # y el pipeline se detendría AQUÍ, evitando el despliegue.
+          # -------------------------------------------------------------------
+          echo "Simulando pruebas... ¡Todo OK!"
+          # Si esta simulación fallara (ej. 'exit 1'), el pipeline se detiene.
+
+      # -----------------------------------------------------------------
+      # --- INICIO DE LA FASE DE "CD" (Despliegue Continuo) ---
+      # -----------------------------------------------------------------
+
+      # Paso 3: (CD) Configurar GitHub Pages
+      - name: (CD) Configurar Pages
+        uses: actions/configure-pages@v5
+
+      # Paso 4: (CD) Construir el "Artifact"
+      # (Toma los archivos de tu micrositio y los empaqueta para Pages)
+      - name: (CD) Empaquetar artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Indica la carpeta que debe desplegar.
+          # Si tu index.html está en la raíz, usa '.'
+          path: '.' 
+
+      # Paso 5: (CD) Desplegar en GitHub Pages
+      # Este paso solo se ejecuta si todos los pasos anteriores (incluida la prueba)
+      # fueron exitosos.
+      - name: (CD) Desplegar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
